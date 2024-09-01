@@ -11,13 +11,14 @@ import logger from 'jet-logger';
 
 import 'express-async-errors';
 
-import BaseRouter from '@src/routes';
+import BaseRouter from '@src/controllers/api';
 
-import Paths from '@src/common/Paths';
-import EnvVars from '@src/common/EnvVars';
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
-import { RouteError } from '@src/common/classes';
-import { NodeEnvs } from '@src/common/misc';
+import Paths from '@src/consts/Paths';
+import EnvVars from '@src/consts/EnvVars';
+import HttpStatusCodes from '@src/consts/HttpStatusCodes';
+import { RouteError } from '@src/consts/classes';
+import { NodeEnvs } from '@src/consts/misc';
+import connect from '@src/db/connect';
 
 
 // **** Variables **** //
@@ -84,6 +85,9 @@ app.get('/users', (_: Request, res: Response) => {
   return res.sendFile('users.html', { root: viewsDir });
 });
 
+
+// Connect to mongoDB
+connect();
 
 // **** Export default **** //
 
