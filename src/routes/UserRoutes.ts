@@ -1,54 +1,21 @@
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
-import UserService from '@src/services/UserService';
-import User from '@src/models/User';
+import HttpStatusCodes from '@src/consts/HttpStatusCodes';
+import User, {IUser} from '@src/models/User';
+import { IReq, IRes } from "@src/types/types";
+import UserRepo from '@src/repos/UserRepo';
 
-import { IReq, IRes } from './common/types';
-import check from './common/check';
+async function register(req: IReq<{user: IUser}>, res: IRes) {
+  const user = req.body.user;
 
-
-// **** Functions **** //
-
-/**
- * Get all users.
- */
-async function getAll(_: IReq, res: IRes) {
-  const users = await UserService.getAll();
-  return res.status(HttpStatusCodes.OK).json({ users });
+  try{
+    User.isUser(user);
+  
+    await UserRepo.register(user);
+    return res.status(HttpStatusCodes.CREATED).end();
+  } catch(err) {
+    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+  }
 }
-
-/**
- * Add one user.
- */
-async function add(req: IReq, res: IRes) {
-  const user = check.isValid(req.body, 'user', User.isUser);
-  await UserService.addOne(user);
-  return res.status(HttpStatusCodes.CREATED).end();
-}
-
-/**
- * Update one user.
- */
-async function update(req: IReq, res: IRes) {
-  const user = check.isValid(req.body, 'user', User.isUser);
-  await UserService.updateOne(user);
-  return res.status(HttpStatusCodes.OK).end();
-}
-
-/**
- * Delete one user.
- */
-async function delete_(req: IReq, res: IRes) {
-  const id = check.isNum(req.params, 'id');
-  await UserService.delete(id);
-  return res.status(HttpStatusCodes.OK).end();
-}
-
-
-// **** Export default **** //
 
 export default {
-  getAll,
-  add,
-  update,
-  delete: delete_,
+  register
 } as const;
