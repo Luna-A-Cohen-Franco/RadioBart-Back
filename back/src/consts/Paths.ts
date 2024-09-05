@@ -9,4 +9,8 @@ export default {
     Base: '/users',
     Register: '',
   },
+  Auth: {
+    Bsae: '/auth',
+    Login: ''
+  }
 } as const;

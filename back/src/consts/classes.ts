@@ -1,4 +1,4 @@
-import HttpStatusCodes from '@src/common/HttpStatusCodes';
+import HttpStatusCodes from '@src/consts/HttpStatusCodes';
 
 
 /**

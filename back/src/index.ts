@@ -1,9 +1,9 @@
 import './pre-start'; // Must be the first import
 import logger from 'jet-logger';
 
-import EnvVars from '@src/common/EnvVars';
+import EnvVars from '@src/consts/EnvVars';
 import server from './server';
-
+import 'module-alias/register';
 
 // **** Run **** //
 
