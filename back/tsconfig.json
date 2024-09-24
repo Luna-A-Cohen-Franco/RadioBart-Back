@@ -74,6 +74,8 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/consts/EnvVars.ts",
+    "src/controllers/Api.ts",
     "spec/**/*.ts",
     "build.ts"
   ],

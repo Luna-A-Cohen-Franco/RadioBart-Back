@@ -11,15 +11,14 @@ import logger from 'jet-logger';
 
 import 'express-async-errors';
 
-import BaseRouter from '@src/controllers/api';
+import apiRouter from '@src/controllers/Api';
 
 import Paths from '@src/consts/Paths';
 import EnvVars from '@src/consts/EnvVars';
 import HttpStatusCodes from '@src/consts/HttpStatusCodes';
 import { RouteError } from '@src/consts/classes';
 import { NodeEnvs } from '@src/consts/misc';
-import connect from '@src/db/connect';
-
+import connect from './db/connect';
 
 // **** Variables **** //
 
@@ -44,7 +43,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 }
 
 // Add APIs, must be after middleware
-app.use(Paths.Base, BaseRouter);
+app.use(Paths.Base, apiRouter);
 
 // Add error handler
 app.use((
@@ -85,8 +84,8 @@ app.get('/users', (_: Request, res: Response) => {
   return res.sendFile('users.html', { root: viewsDir });
 });
 
+// **** connect to MongoDB **** //
 
-// Connect to mongoDB
 connect();
 
 // **** Export default **** //
