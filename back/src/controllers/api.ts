@@ -11,5 +11,5 @@ apiRouter.use(Paths.Users.Base, userRouter);
 apiRouter.use(Paths.Auth.Base, authRouter);
 apiRouter.use(Paths.Albums.Base, albumRouter);
 apiRouter.use(Paths.Reviews.Base, reviewRouter);
-apiRouter.get(Paths.Artists.Base, artistRouter)
+apiRouter.use(Paths.Artists.Base, artistRouter)
 export default apiRouter;

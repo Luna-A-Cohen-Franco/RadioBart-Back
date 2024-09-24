@@ -1,8 +1,9 @@
+import { IArtist } from "./Artista nOANDA";
 
 
 export interface IAlbum {
     title: string,
-    artist: string, //cambiar a IArtist
+    artist: string, 
     year: number,
     genre: string //cambiar a IGenre
 }

@@ -12,6 +12,7 @@ async function getAll(req: IReq, res: IRes) {
 
 async function getOne(req: IReq, res: IRes) {
   console.log("getones")
+  console.log(req.params.id);
   const artist = await ArtistRepo.getOne(req.params.id);
   console.log("gotones")
 

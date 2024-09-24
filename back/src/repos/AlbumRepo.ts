@@ -24,11 +24,11 @@ async function add(album: IAlbum) {
     try {
         const newAlbum = new Album(album);
         await newAlbum.save();
+        return newAlbum; // Retorna el álbum recién creado
     } catch (error) {
         throw new Error(`Error adding album: ${error.message}`);
     }
 }
-
 async function update(id: string, album: IAlbum) {
     try {
         await Album.findByIdAndUpdate

@@ -2,17 +2,17 @@ import { IAlbum } from "./Album";
 import { IUser } from "./User";
 
 export interface IReview {
-    album: string, //cambiar a IAlbum
+    album: IAlbum, //cambiar a IAlbum
     rating: number,
     review: string
-    user: string //cambiar a IUser
+    user: IUser //cambiar a IUser
 }
 
 function new_(
-    album: string,
+    album: IAlbum,
     rating: number,
     review: string,
-    user: string
+    user: IUser
 ): IReview {
     return {
         album: album,
@@ -31,10 +31,10 @@ function from(obj: any): IReview {
 
 function isReview(obj: any): boolean {
     return typeof obj === 'object' &&
-        'album' in obj && typeof obj.album === 'string' &&
+        'album' in obj && typeof obj.album === 'object' &&
         'rating' in obj && typeof obj.rating === 'string' &&
         'review' in obj && typeof obj.review === 'string' &&
-        'user' in obj && typeof obj.user === 'string'
+        'user' in obj && typeof obj.user === 'object'
 }
 
 export default {

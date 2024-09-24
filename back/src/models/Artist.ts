@@ -1,13 +1,13 @@
-
+import { IAlbum } from "./Album";
 
 export interface IArtist {
     name: string,
-    albums: string //cambiar a IAlbum[]
+    albums: IAlbum[] //cambiar a IAlbum[]
 }
 
 function new_(
     name: string,
-    albums: string
+    albums: IAlbum[]
 ): IArtist {
     return {
         name: name,
@@ -25,7 +25,7 @@ function from(obj: any): IArtist {
 function isArtist(obj: any): boolean {
     return typeof obj === 'object' &&
         'name' in obj && typeof obj.name === 'string' &&
-        'albums' in obj && typeof obj.albums === 'string'
+        'albums' in obj && Array.isArray(obj.albums) && obj.albums.every((album: any) => album.isAlbum(album))
 }
 
 export default {
