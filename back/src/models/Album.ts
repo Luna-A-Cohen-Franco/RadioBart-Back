@@ -1,30 +1,37 @@
-import { IArtist } from "./Artista nOANDA";
+
+import { IReview } from "./Review";
 
 
 export interface IAlbum {
     title: string,
     artist: string, 
-    year: number,
+    year: Date,
     genre: string //cambiar a IGenre
+    reviews: IReview[],
+    cover: string
 }
 
 function new_(
     title: string,
     artist: string,
-    year: number,
-    genre: string
+    year: Date,
+    genre: string,
+    reviews: IReview[] = [],
+    cover: string
 ): IAlbum {
     return {
         title: title,
         artist: artist,
         year: year,
-        genre: genre
+        genre: genre,
+        reviews: reviews,
+        cover: cover
     };
 }
 
 function from(obj: any): IAlbum {
     if (isAlbum(obj)) {
-        return new_(obj.title, obj.artist, obj.year, obj.genre)
+        return new_(obj.title, obj.artist, obj.year, obj.genre, obj.reviews, obj.cover);
     }
     throw new Error("Object isn't an album")
 }
@@ -33,8 +40,10 @@ function isAlbum(obj: any): boolean {
     return typeof obj === 'object' &&
         'title' in obj && typeof obj.title === 'string' &&
         'artist' in obj && typeof obj.artist === 'string' &&
-        'year' in obj && typeof obj.year === 'number' &&
-        'genre' in obj && typeof obj.genre === 'string'
+        'year' in obj && obj.year instanceof Date &&
+        'genre' in obj && typeof obj.genre === 'string' &&
+        'reviews' in obj && Array.isArray(obj.reviews) &&
+        'cover' in obj && typeof obj.cover === 'string';
 }
 
 export default {

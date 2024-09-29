@@ -3,6 +3,7 @@
  */
 
 import Album from "@src/models/Album";
+import Genre from "@src/models/Genre";
 
 
 export default {
@@ -37,6 +38,14 @@ export default {
   },
   Artists: {
     Base: '/artists',
+    Get: '',
+    GetOne: '/:id',
+    Add: '',
+    Update: '/:id',
+    Delete: '/:id',
+  },
+  Genres: {
+    Base: '/genres',
     Get: '',
     GetOne: '/:id',
     Add: '',

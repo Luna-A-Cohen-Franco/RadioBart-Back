@@ -11,7 +11,7 @@ import logger from 'jet-logger';
 
 import 'express-async-errors';
 
-import apiRouter from '@src/controllers/Api';
+import apiRouter from '@src/controllers/api';
 
 import Paths from '@src/consts/Paths';
 import EnvVars from '@src/consts/EnvVars';

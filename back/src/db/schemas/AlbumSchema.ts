@@ -5,6 +5,7 @@ const albumSchema = new mongoose.Schema({
     artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true },
     year: { type: Number, required: true },
     genre: { type: String, required: true },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 });
 
 export default albumSchema;

@@ -1,5 +1,6 @@
 import Album from '@src/db/models/AlbumModel';
 import { IAlbum } from '@src/models/Album';
+import Review from '@src/models/Review';
 
 async function getAll() {
     try {
@@ -48,10 +49,24 @@ async function delete_(id: string) {
     }
 }
 
+async function getAverageRating(albumId: string): Promise<number> {
+    try {
+        const reviews = await Review.find({ album: albumId }).exec();
+        if (reviews.length === 0) {
+            return 0;
+        }
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return totalRating / reviews.length;
+    } catch (error) {
+        throw new Error(`Error calculating average rating: ${error.message}`);
+    }
+}
+
 export default {
     getOne,
     getAll,
     add,
     update,
-    delete: delete_
+    delete: delete_,
+    getAverageRating,
 } as const;
