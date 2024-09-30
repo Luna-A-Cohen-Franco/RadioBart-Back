@@ -52,4 +52,12 @@ export default {
     Update: '/:id',
     Delete: '/:id',
   },
+  Comments: {
+    Base: '/comments',
+    Get: '',
+    GetOne: '/:id',
+    Add: '',
+    Update: '/:id',
+    Delete: '/:id',
+  },
 } as const;

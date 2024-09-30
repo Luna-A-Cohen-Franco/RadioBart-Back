@@ -1,4 +1,5 @@
 import { IAlbum } from "./Album";
+import { IComment } from "./Comment";
 import { IUser } from "./User";
 
 export interface IReview {
@@ -7,6 +8,7 @@ export interface IReview {
     review: string
     user: IUser //cambiar a IUser
     date: Date,
+    comment: IComment,
     likes?: number
 }
 
@@ -16,7 +18,8 @@ function new_(
     review: string,
     user: IUser,
     date: Date = new Date(),
-    likes?: number
+    comment: IComment,
+    likes?: number,
 ): IReview {
     return {
         album: album,
@@ -24,13 +27,14 @@ function new_(
         review: review,
         user: user,
         date: date,
+        comment: comment,
         likes: likes
     };
 }
 
 function from(obj: any): IReview {
     if (isReview(obj)) {
-        return new_(obj.album, obj.rating, obj.review, obj.user, obj.date, obj.likes);
+        return new_(obj.album, obj.rating, obj.review, obj.user, obj.date, obj.likes, obj.comment);
     }
     throw new Error("Object isn't a review")
 }
@@ -42,6 +46,7 @@ function isReview(obj: any): boolean {
         'review' in obj && typeof obj.review === 'string' &&
         'user' in obj && typeof obj.user === 'object' &&
         'date' in obj && obj.date instanceof Date &&
+        'comment' in obj && typeof obj.comment === 'object' &&
         'likes' in obj && typeof obj.likes === 'number';
 }
 

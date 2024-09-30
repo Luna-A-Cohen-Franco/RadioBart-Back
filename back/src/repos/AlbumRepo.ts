@@ -1,6 +1,6 @@
 import Album from '@src/db/models/AlbumModel';
 import { IAlbum } from '@src/models/Album';
-import Review from '@src/models/Review';
+import Review from '@src/db/models/ReviewModel';
 
 async function getAll() {
     try {
