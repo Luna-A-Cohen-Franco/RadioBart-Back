@@ -49,10 +49,22 @@ async function delete_(req: IReq, res: IRes) {
   return res.status(HttpStatusCodes.OK).end();
 }
 
+async function changeLikes(req: IReq<{ likes: number }>, res: IRes) {
+  try {
+    const reviewId = req.params.id;
+    const newLikes = req.body.likes;
+    await ReviewRepo.changeLikes(reviewId, newLikes);
+    return res.status(HttpStatusCodes.OK).json({ message: "Likes updated successfully" });
+  } catch (error) {
+    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error updating likes" });
+  }
+}
+
 export default {
     getAll,
     getOne,
     add,
     update,
-    delete: delete_
+    delete: delete_,
+    changeLikes
 } as const;

@@ -2,17 +2,14 @@
  * Express router paths go here.
  */
 
-import Album from "@src/models/Album";
-import Genre from "@src/models/Genre";
-
-
 export default {
   Base: '/api',
   Users: {
     Base: '/users',
     Get: '',
     GetOne: '/:id',
-    Register: '',
+    GetStats:'/stats/:id',
+    Add: '',
     Update: '/:id',
     Delete: '/:id',
   },
@@ -36,6 +33,7 @@ export default {
     Add: '',
     Update: '/:id',
     Delete: '/:id',
+    Like: '/like/:id'
   },
   Artists: {
     Base: '/artists',
@@ -45,14 +43,6 @@ export default {
     Update: '/:id',
     Delete: '/:id',
     Average: '/avgRating/:id',
-  },
-  Genres: {
-    Base: '/genres',
-    Get: '',
-    GetOne: '/:id',
-    Add: '',
-    Update: '/:id',
-    Delete: '/:id',
   },
   Comments: {
     Base: '/comments',

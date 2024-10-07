@@ -51,10 +51,19 @@ async function delete_(id: string) {
     }
 }
 
+async function changeLikes(reviewId: string, newLikes: number): Promise<void> {
+    try {
+      await Review.updateOne({ _id: reviewId }, { likes: newLikes });
+    } catch (error) {
+      throw new Error(`Error updating likes: ${error.message}`);
+    }
+}
+
 export default {
     getOne,
     getAll,
     add,
     update,
     delete: delete_,
+    changeLikes
 } as const;

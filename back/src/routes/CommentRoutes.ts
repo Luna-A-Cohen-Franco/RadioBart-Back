@@ -2,6 +2,8 @@ import HttpStatusCodes from "@src/consts/HttpStatusCodes";
 import CommentMethods, {IComment} from "@src/models/Comment";
 import { IReq, IRes } from "@src/types/types";
 import CommentRepo from "@src/repos/CommentRepo";
+import ReviewRepo from "@src/repos/ReviewRepo";
+import { IReview } from "@src/models/Review";
 
 async function getAll(req: IReq, res: IRes) {
     const comments = await CommentRepo.getAll();
@@ -22,6 +24,14 @@ async function add(req: IReq<{comment: IComment}>, res: IRes) {
 
     try {
         const newComment = await CommentRepo.add(comment);
+
+        const review = await ReviewRepo.getOne(comment.review);
+        if (review) {
+            review.comments.push(newComment.id);
+            review.likes = review.likes || 0; 
+            await ReviewRepo.update(review.id, review as IReview);
+        }
+
         return res.status(HttpStatusCodes.CREATED).json(newComment);
     } catch (error) {
         return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error adding comment" });

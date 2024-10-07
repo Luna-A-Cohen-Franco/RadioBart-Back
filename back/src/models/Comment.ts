@@ -1,14 +1,14 @@
 export interface IComment {
     review: string,
     user: string,
-    date: Date,
+    date: string,
     comment: string
 }
-
+ 
 function new_(
     review: string,
     user: string,
-    date: Date,
+    date: string,
     comment: string
 ): IComment {
     return {
@@ -18,22 +18,22 @@ function new_(
         comment: comment
     };
 }
-
+ 
 function from(obj: any): IComment {
     if (isComment(obj)) {
         return new_(obj.review, obj.user, obj.date, obj.comment);
     }
     throw new Error("Object isn't a comment")
 }
-
+ 
 function isComment(obj: any): boolean {
     return typeof obj === 'object' &&
         'review' in obj && typeof obj.review === 'string' &&
         'user' in obj && typeof obj.user === 'string' &&
-        'date' in obj && obj.date instanceof Date &&
+        'date' in obj && typeof obj.date === 'string' &&
         'comment' in obj && typeof obj.comment === 'string';
 }
-
+ 
 export default {
     new: new_,
     from,

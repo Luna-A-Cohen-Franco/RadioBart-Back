@@ -4,15 +4,14 @@ import AuthRepo from '@src/repos/AuthRepo';
 import { IReq, IRes } from "@src/types/types";
 
 async function login(req : IReq<{user: IUser}>, res : IRes) {
-    if (!UserMethods.isUser(req.body)){
+    if (!UserMethods.isUserParaLogin(req.body)){
         return res.status(HttpStatusCodes.BAD_REQUEST).end();
     }
     
-    const user = UserMethods.from(req.body);
+    const user = UserMethods.fromParaLogin(req.body);
 
     try {
         const token = await AuthRepo.login(user);
-
         return res.status(HttpStatusCodes.OK).send({ token });
     }
     catch (error) {

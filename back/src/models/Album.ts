@@ -6,7 +6,7 @@ export interface IAlbum {
     title: string,
     artist: string, 
     fecha: string,
-    genre: string //TODO: cambiar a IGenre
+    genre: string
     reviews: string[],
     cover: string
 }

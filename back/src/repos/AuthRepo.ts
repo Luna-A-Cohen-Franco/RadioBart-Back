@@ -10,7 +10,7 @@ async function login(user: IUser): Promise<string>{
         throw new Error('User doesnt exist');
     }
 
-    const equals = await bcrypt.compare(user.password, foundUser.password_hash);
+    const equals = await bcrypt.compare(user.password, foundUser.password);
 
     if (equals) {
         return generateToken(foundUser._id);

@@ -4,7 +4,4 @@ import { Router } from 'express';
 
 export const authRouter = Router();
 
-authRouter.post(
-    Paths.Auth.Login,
-    AuthRoutes.login,
-);
+authRouter.post(Paths.Auth.Login, AuthRoutes.login);

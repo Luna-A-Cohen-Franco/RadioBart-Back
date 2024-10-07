@@ -24,10 +24,8 @@ async function add(req: IReq<{ album: IAlbum }>, res: IRes) {
   const album = AlbumMethods.from(req.body);
   
   try {
-      // Primero, agrega el álbum
       const newAlbum = await AlbumRepo.add(album);
 
-      // Luego, agrega el ID del nuevo álbum al array de álbumes del artista
       console.log(await ArtistRepo.addAlbumToArtist(album.artist, newAlbum._id));
 
 
