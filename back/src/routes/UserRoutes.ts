@@ -59,7 +59,7 @@ async function delete_(req: IReq<{ id: string }>, res: IRes) {
 }
 
 async function getUserStats(req: IReq<{ userId: string }>, res: IRes) {
-  const { userId } = req.params;
+  const userId  = req.params.userId;
   const stats = await UserRepo.getUserStats(userId);
   return res.status(HttpStatusCodes.OK).json(stats);
 }

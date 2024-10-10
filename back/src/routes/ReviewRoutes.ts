@@ -49,11 +49,13 @@ async function delete_(req: IReq, res: IRes) {
   return res.status(HttpStatusCodes.OK).end();
 }
 
-async function changeLikes(req: IReq<{ likes: number }>, res: IRes) {
+async function changeLikes(req: IReq<{ likes: number, userId: string }>, res: IRes) {
   try {
+    console.log(req.body);
     const reviewId = req.params.id;
     const newLikes = req.body.likes;
-    await ReviewRepo.changeLikes(reviewId, newLikes);
+    const userId = req.body.userId;
+    await ReviewRepo.changeLikes(reviewId, newLikes, userId);
     return res.status(HttpStatusCodes.OK).json({ message: "Likes updated successfully" });
   } catch (error) {
     return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error updating likes" });

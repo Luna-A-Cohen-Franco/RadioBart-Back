@@ -51,11 +51,16 @@ async function delete_(id: string) {
     }
 }
 
-async function changeLikes(reviewId: string, newLikes: number): Promise<void> {
+async function changeLikes(reviewId: string, newLikes: number, userId: string): Promise<void> {
     try {
-      await Review.updateOne({ _id: reviewId }, { likes: newLikes });
+        const review = await Review.findById(reviewId);
+        if (review && review.likes !== undefined && review.likes !== null && review.likes > newLikes) {
+            await Review.updateOne({ _id: reviewId }, { likes: newLikes, $pull: { usuarioLike: userId } });
+        } else {
+            await Review.updateOne({ _id: reviewId }, { likes: newLikes, $push: { usuarioLike: userId } });
+        }
     } catch (error) {
-      throw new Error(`Error updating likes: ${error.message}`);
+        throw new Error(`Error updating likes: ${error.message}`);
     }
 }
 

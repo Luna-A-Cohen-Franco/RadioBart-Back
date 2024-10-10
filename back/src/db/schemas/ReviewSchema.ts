@@ -7,7 +7,8 @@ const reviewSchema = new mongoose.Schema({
     user: { type: String, required: true },
     date: { type: String, required: true },
     comments: { type: [String], required: true },
-    likes: { type: Number, required: false }
+    likes: { type: Number, required: false },
+    usuarioLike: { type: [String], required: false }
 });
 
 export default reviewSchema;

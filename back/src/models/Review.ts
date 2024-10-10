@@ -9,7 +9,8 @@ export interface IReview {
     user: string 
     date: string,
     comments: string[],
-    likes: number
+    likes: number,
+    usuarioLike: string[]
 }
 
 function new_(
@@ -20,6 +21,7 @@ function new_(
     date: string,
     comments: string[],
     likes: number,
+    usuarioLike: string[]
 ): IReview {
     return {
         album: album,
@@ -28,13 +30,14 @@ function new_(
         user: user,
         date: date,
         comments: comments,
-        likes: likes
+        likes: likes,
+        usuarioLike: usuarioLike
     };
 }
 
 function from(obj: any): IReview {
     if (isReview(obj)) {
-        return new_(obj.album, obj.rating, obj.review, obj.user, obj.date, obj.comments, obj.likes);
+        return new_(obj.album, obj.rating, obj.review, obj.user, obj.date, obj.comments, obj.likes, obj.usuarioLike);
     }
     throw new Error("Object isn't a review")
 }
@@ -47,7 +50,8 @@ function isReview(obj: any): boolean {
         'user' in obj && typeof obj.user === 'string' &&
         'date' in obj && typeof obj.date === 'string' &&
         'comments' in obj && Array.isArray(obj.comments) &&
-        'likes' in obj && typeof obj.likes === 'number';
+        'likes' in obj && typeof obj.likes === 'number' &&
+        'usuarioLike' in obj && Array.isArray(obj.usuarioLike);
 }
 
 export default {

@@ -8,7 +8,7 @@ export default {
     Base: '/users',
     Get: '',
     GetOne: '/:id',
-    GetStats:'/stats/:id',
+    GetStats:'/stats/:userId',
     Add: '',
     Update: '/:id',
     Delete: '/:id',

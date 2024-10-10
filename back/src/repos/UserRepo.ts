@@ -58,7 +58,7 @@ async function getUserStats(userId: string) {
   try {
     const reviews = await Review.find({ user: userId }).exec();
     const reviewCount = reviews.length;
-    const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount;
+    const averageRating = reviewCount > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount : 0;
     const totalLikes = reviews.reduce((sum, review) => sum + (review.likes ?? 0), 0);
     return {
       reviewCount,
