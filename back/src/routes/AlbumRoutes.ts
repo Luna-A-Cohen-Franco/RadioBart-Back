@@ -17,7 +17,7 @@ async function getOne(req: IReq, res: IRes) {
   return res.status(HttpStatusCodes.OK).json(album);
 }
 
-async function add(req: IReq<{ album: IAlbum }>, res: IRes) {
+async function add(req: IReq, res: IRes) {
   if (!AlbumMethods.isAlbum(req.body)) {
       return res.status(HttpStatusCodes.BAD_REQUEST).json({ message: "Invalid album data" });
   }
@@ -35,7 +35,7 @@ async function add(req: IReq<{ album: IAlbum }>, res: IRes) {
   }
 }
 
-async function update(req: IReq<{album: IAlbum}>, res: IRes) {
+async function update(req: IReq, res: IRes) {
   if (!AlbumMethods.isAlbum(req.body)){
       return res.status(HttpStatusCodes.BAD_REQUEST).end();
   }

@@ -1,6 +1,7 @@
 import HttpStatusCodes from '@src/consts/HttpStatusCodes';
 import UserMethods, {IUser} from '@src/models/User';
-import { IReq, IRes } from "@src/types/types";
+import { IReq, IRes} from "@src/types/types";
+import { NextFunction as INext } from 'express';
 import UserRepo from '@src/repos/UserRepo';
 
 async function getAll(req: IReq<{}>, res: IRes) {
@@ -21,8 +22,9 @@ async function add(req: IReq<{user: IUser}>, res: IRes) {
   if (!UserMethods.isUser(req.body)){
       return res.status(HttpStatusCodes.BAD_REQUEST).end();
   }
-  
+  console.log(req.body);
   const user = UserMethods.from(req.body);
+  console.log(user);
   
   await UserRepo.add(user);
 

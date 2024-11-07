@@ -19,7 +19,7 @@ async function getOne(req: IReq, res: IRes) {
   return res.status(HttpStatusCodes.OK).json(artist);
 }
 
-async function add(req: IReq<{ artist: IArtist }>, res: IRes) {
+async function add(req: IReq, res: IRes) {
   console.log(req.body)
   if (!ArtistMethods.isArtist(req.body)) {
     return res.status(HttpStatusCodes.BAD_REQUEST).json({ message: "Invalid artist data" });
@@ -35,7 +35,7 @@ async function add(req: IReq<{ artist: IArtist }>, res: IRes) {
   }
 }
 
-async function update(req: IReq<{ artist: IArtist }>, res: IRes) {
+async function update(req: IReq, res: IRes) {
   if (!ArtistMethods.isArtist(req.body)) {
     return res.status(HttpStatusCodes.BAD_REQUEST).end();
   }

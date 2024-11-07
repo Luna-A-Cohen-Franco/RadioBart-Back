@@ -27,7 +27,8 @@ async function add(user: IUser) {
     const newUser = new User({
       username: user.username,
       password: hashedPassword,
-      picture: user.picture
+      picture: user.picture,
+      role: user.role,
     });
     const savedUser = await newUser.save();
     return savedUser;
