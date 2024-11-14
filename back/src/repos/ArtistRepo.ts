@@ -48,8 +48,16 @@ async function update(id: string, artist: IArtist) {
 
 async function delete_(id: string) {
     try {
+        const albums = await Album.find({ artist: id }).exec();
+
+        for (const album of albums) {
+            await Review.deleteMany({ album: album._id }).exec();
+        }
+        
+        await Album.deleteMany({ artist: id }).exec();
         await Artist.findByIdAndDelete(id).exec();
-        console.log("Artist deleted successfully");
+
+        console.log("Artist, associated albums, and reviews deleted successfully");
     } catch (error) {
         throw new Error(`Error deleting artist: ${error.message}`);
     }

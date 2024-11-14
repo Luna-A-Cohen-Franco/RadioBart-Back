@@ -53,7 +53,7 @@ async function delete_(req: IReq<{ id: string }>, res: IRes) {
 
   const deletedUser = await UserRepo.delete_(id);
 
-  if (!deletedUser) {
+  if (deletedUser === undefined) {
     return res.status(HttpStatusCodes.NOT_FOUND).end();
   }
 

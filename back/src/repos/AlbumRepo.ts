@@ -3,6 +3,7 @@ import { IAlbum } from '@src/models/Album';
 import Review from '@src/db/models/ReviewModel';
 import { ObjectId } from 'mongodb';
 import { IReview } from '@src/models/Review';
+import Artist from '@src/db/models/ArtistModel';
 
 async function getAll() {
     try {
@@ -44,9 +45,11 @@ async function update(id: string, album: IAlbum) {
 
 async function delete_(id: string) {
     try {
+        await Review.deleteMany({ album: id }).exec();
+        await Artist.updateMany({}, { $pull: { albums: id } }).exec();
         await Album.findByIdAndDelete(id).exec();
-    }
-    catch (error) {
+        console.log("Album and associated reviews deleted successfully");
+    } catch (error) {
         throw new Error(`Error deleting album: ${error.message}`);
     }
 }

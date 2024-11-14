@@ -2,6 +2,7 @@ import Review from "@src/db/models/ReviewModel";
 import Album from "@src/db/models/AlbumModel";
 import { IReview } from "@src/models/Review";
 import AlbumRepo from "./AlbumRepo";
+import Comment from "@src/db/models/CommentModel";
 
 async function getAll() {
     try {
@@ -44,9 +45,11 @@ async function update(id: string, review: IReview) {
 
 async function delete_(id: string) {
     try {
+        await Comment.deleteMany({ review: id }).exec();
+        await Album.updateMany({}, { $pull: { reviews: id } }).exec();
         await Review.findByIdAndDelete(id).exec();
-    }
-    catch (error) {
+        console.log("Review and associated comments deleted successfully");
+    } catch (error) {
         throw new Error(`Error deleting review: ${error.message}`);
     }
 }
