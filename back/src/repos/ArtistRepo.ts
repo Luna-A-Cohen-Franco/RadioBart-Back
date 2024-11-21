@@ -27,6 +27,25 @@ async function getOne(id: string) {
     }
 }
 
+async function getPaginatedArtists(limit: number, page: number, searchString: string) {
+    const query = searchString 
+      ? { name: { $regex: searchString, $options: 'i' } }
+      : {};
+
+    console.log('Query:', query);
+
+    const artists = await Artist.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    console.log('Artists:', artists);
+
+    const total = await Artist.countDocuments(query).exec();
+
+    return { artists, total };
+}
+
 async function add(artist: IArtist) {
     try {
         const newArtist = new Artist(artist);
@@ -98,4 +117,5 @@ export default {
     delete: delete_,
     addAlbumToArtist,
     getArtistAverageRating,
+    getPaginatedArtists
 } as const;

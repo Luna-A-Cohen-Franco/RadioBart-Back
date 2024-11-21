@@ -4,6 +4,7 @@ import { IReq, IRes } from "@src/types/types";
 import AlbumRepo from '@src/repos/AlbumRepo';
 import ArtistRepo from '@src/repos/ArtistRepo';
 import { ObjectId } from 'mongodb';
+import { Document } from 'mongoose';
 
 async function getAll(req: IReq, res: IRes) {
   const albums = await AlbumRepo.getAll();
@@ -12,11 +13,27 @@ async function getAll(req: IReq, res: IRes) {
 }
 
 async function getOne(req: IReq, res: IRes) {
+  console.log(req.params.id);
   const album = await AlbumRepo.getOne(req.params.id);
   
   return res.status(HttpStatusCodes.OK).json(album);
 }
 
+async function getPaginatedAlbums(req: IReq, res: IRes) {
+  const { limit, page, searchString } = req.query;
+  try {
+    const artistResult = await ArtistRepo.getPaginatedArtists(Number(2000000), Number(1), searchString as string);
+    const artistIds = artistResult.artists.map(artist => artist._id);
+
+    const stringArtistIds = artistIds.map(id => id.toString());
+
+    const albumResult = await AlbumRepo.getPaginatedAlbums(Number(limit), Number(page), searchString ? [searchString as string, ...stringArtistIds] : null);
+
+    return res.status(HttpStatusCodes.OK).json(albumResult);
+  } catch (error) {
+    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+}
 async function add(req: IReq, res: IRes) {
   if (!AlbumMethods.isAlbum(req.body)) {
       return res.status(HttpStatusCodes.BAD_REQUEST).json({ message: "Invalid album data" });
@@ -67,5 +84,6 @@ export default {
     add,
     update,
     delete: delete_,
-    getAverageRating
+    getAverageRating,
+    getPaginatedAlbums
 } as const;
