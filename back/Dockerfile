@@ -24,6 +24,6 @@ RUN npm install --only=production
 
 EXPOSE 3000
 
-ENV $(cat ./env/production.env | xargs)
+ENV $(cat ./app/dist/production.env | xargs)
 
 CMD ["node", "dist/index.js"]
