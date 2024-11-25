@@ -3,6 +3,7 @@ import { IAlbum } from '@src/models/Album';
 import Review from '@src/db/models/ReviewModel';
 import { ObjectId } from 'mongodb';
 import { IReview } from '@src/models/Review';
+import Artist from '@src/db/models/ArtistModel';
 
 async function getAll() {
     try {
@@ -23,11 +24,38 @@ async function getOne(id: string) {
     }
 }
 
+async function getPaginatedAlbums(limit: number, page: number, searchString: string[] | null) {
+    try {
+        console.log(limit, page, searchString);
+        const query = searchString 
+            ? { 
+                $or: [
+                    { title: { $regex: searchString[0], $options: 'i' } },
+                    { 'artist.name': { $regex: searchString[0], $options: 'i' } },
+                    { 'artist': { $in: searchString.slice(1).map(id => new ObjectId(id)) } }
+                ] 
+              }
+            : {};
+        console.log(limit, page, query);
+        console.log(`Limit: ${limit}, Page: ${page}, Skip: ${(page - 1) * limit}`);
+        const albums = await Album.find(query)
+            .populate('artist')
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .exec();
+        console.log(albums);
+        const total = await Album.countDocuments(query).exec();
+        return { albums, total };
+    } catch (error) {
+        throw new Error(`Error fetching paginated albums: ${error.message}`);
+    }
+}
+
 async function add(album: IAlbum) {
     try {
         const newAlbum = new Album(album);
         await newAlbum.save();
-        return newAlbum; // Retorna el álbum recién creado
+        return newAlbum; 
     } catch (error) {
         throw new Error(`Error adding album: ${error.message}`);
     }
@@ -44,9 +72,11 @@ async function update(id: string, album: IAlbum) {
 
 async function delete_(id: string) {
     try {
+        await Review.deleteMany({ album: id }).exec();
+        await Artist.updateMany({}, { $pull: { albums: id } }).exec();
         await Album.findByIdAndDelete(id).exec();
-    }
-    catch (error) {
+        console.log("Album and associated reviews deleted successfully");
+    } catch (error) {
         throw new Error(`Error deleting album: ${error.message}`);
     }
 }
@@ -83,5 +113,6 @@ export default {
     update,
     delete: delete_,
     getAverageRating,
-    addReviewToAlbum
+    addReviewToAlbum,
+    getPaginatedAlbums
 } as const;

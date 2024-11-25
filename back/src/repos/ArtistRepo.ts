@@ -27,6 +27,25 @@ async function getOne(id: string) {
     }
 }
 
+async function getPaginatedArtists(limit: number, page: number, searchString: string) {
+    const query = searchString 
+      ? { name: { $regex: searchString, $options: 'i' } }
+      : {};
+
+    console.log('Query:', query);
+
+    const artists = await Artist.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    console.log('Artists:', artists);
+
+    const total = await Artist.countDocuments(query).exec();
+
+    return { artists, total };
+}
+
 async function add(artist: IArtist) {
     try {
         const newArtist = new Artist(artist);
@@ -48,8 +67,16 @@ async function update(id: string, artist: IArtist) {
 
 async function delete_(id: string) {
     try {
+        const albums = await Album.find({ artist: id }).exec();
+
+        for (const album of albums) {
+            await Review.deleteMany({ album: album._id }).exec();
+        }
+        
+        await Album.deleteMany({ artist: id }).exec();
         await Artist.findByIdAndDelete(id).exec();
-        console.log("Artist deleted successfully");
+
+        console.log("Artist, associated albums, and reviews deleted successfully");
     } catch (error) {
         throw new Error(`Error deleting artist: ${error.message}`);
     }
@@ -90,4 +117,5 @@ export default {
     delete: delete_,
     addAlbumToArtist,
     getArtistAverageRating,
+    getPaginatedArtists
 } as const;

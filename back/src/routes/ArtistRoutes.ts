@@ -2,22 +2,30 @@ import HttpStatusCodes from "@src/consts/HttpStatusCodes";
 import ArtistMethods, { IArtist } from "@src/models/Artist";
 import { IReq, IRes } from "@src/types/types";
 import ArtistRepo from "@src/repos/ArtistRepo";
+import { Request, Response } from "express";
 
 async function getAll(req: IReq, res: IRes) {
-  console.log("getalls")
   const artists = await ArtistRepo.getAll();
-  console.log("gotalls")
   return res.status(HttpStatusCodes.OK).json(artists);
 }
 
 async function getOne(req: IReq, res: IRes) {
-  console.log("getones")
   console.log(req.params.id);
   const artist = await ArtistRepo.getOne(req.params.id);
-  console.log("gotones")
 
   return res.status(HttpStatusCodes.OK).json(artist);
 }
+
+async function getPaginatedArtists(req: IReq, res: IRes) {
+  const { limit, page, searchString } = req.query;
+  try {
+      const result = await ArtistRepo.getPaginatedArtists(Number(limit), Number(page), searchString as string);
+      return res.status(HttpStatusCodes.OK).json(result);
+  } catch (error) {
+      return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
+  }
+}
+
 
 async function add(req: IReq, res: IRes) {
   console.log(req.body)
@@ -68,4 +76,5 @@ export default {
   update,
   delete: delete_,
   getArtistAverageRating,
+  getPaginatedArtists
 } as const;

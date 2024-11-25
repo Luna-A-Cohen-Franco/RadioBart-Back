@@ -25,6 +25,7 @@ export default {
     Update: '/:id',
     Delete: '/:id',
     Average: '/avgRating/:id',
+    Paginated: '/paginated/a',
   },
   Reviews: {
     Base: '/reviews',
@@ -43,6 +44,7 @@ export default {
     Update: '/:id',
     Delete: '/:id',
     Average: '/avgRating/:id',
+    Paginated: '/paginated/a',
   },
   Comments: {
     Base: '/comments',

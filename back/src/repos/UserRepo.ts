@@ -48,10 +48,11 @@ async function update(id: string, user: IUser) {
 
 async function delete_(id: string) {
   try {
-    const deletedUser = await User.findByIdAndDelete(id).exec();
-    return deletedUser;
+      await Review.deleteMany({ user: id }).exec();
+      await User.findByIdAndDelete(id).exec();
+      console.log("User and associated reviews deleted successfully");
   } catch (error) {
-    throw new Error(`Error deleting user: ${error.message}`);
+      throw new Error(`Error deleting user: ${error.message}`);
   }
 }
 

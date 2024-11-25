@@ -1,4 +1,5 @@
 import Comment from "@src/db/models/CommentModel";
+import Review from "@src/db/models/ReviewModel";
 import { IComment } from "@src/models/Comment";
 
 async function getAll() {
@@ -39,9 +40,10 @@ async function update(id: string, comment: IComment) {
 
 async function delete_(id: string) {
     try {
+        await Review.updateMany({}, { $pull: { comments: id } }).exec();
         await Comment.findByIdAndDelete(id).exec();
-    }
-    catch (error) {
+        console.log("Comment deleted successfully");
+    } catch (error) {
         throw new Error(`Error deleting comment: ${error.message}`);
     }
 }
