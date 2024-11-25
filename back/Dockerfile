@@ -18,11 +18,11 @@ WORKDIR /app
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/dist ./dist
 
-COPY ./env/production.env ./app/dist/production.env
+COPY ./env/development.env ./app/dist/production.env
 
 RUN npm install --only=production
 
-EXPOSE 3000
+EXPOSE 8081
 
 ENV $(cat ./app/dist/production.env | xargs)
 
