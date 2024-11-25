@@ -3,13 +3,12 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm ci
 
+RUN mkdir -p /app/env && echo "$PRODUCTION" > /app/env/production.env
+
 COPY . .
-
 RUN npm run build
-
 
 FROM node:18-alpine
 
@@ -18,12 +17,13 @@ WORKDIR /app
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/dist ./dist
 
-COPY ./env/production.env ./app/env/production.env
+
+COPY --from=build /app/env/production.env ./env/production.env
 
 RUN npm install --only=production
 
 EXPOSE 8081
 
-ENV $(cat ./app/dist/production.env | xargs)
+ENV $(cat ./app/env/production.env | xargs)
 
 CMD ["node", "dist/index.js"]
