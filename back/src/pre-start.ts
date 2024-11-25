@@ -23,7 +23,7 @@ interface IArgs {
 const args = parse<IArgs>({
   env: {
     type: String,
-    defaultValue: 'development',
+    defaultValue: 'production',
     alias: 'e',
   },
 });

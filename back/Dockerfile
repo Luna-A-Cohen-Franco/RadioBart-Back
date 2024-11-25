@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/dist ./dist
 
-COPY ./env/production.env ./app/dist/production.env
+COPY ./env/production.env ./app/env/production.env
 
 RUN npm install --only=production
 
