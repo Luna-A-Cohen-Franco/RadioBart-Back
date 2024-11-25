@@ -4,6 +4,7 @@ import logger from 'jet-logger';
 import server from './server';
 import EnvVars from '@src/consts/EnvVars';
 
+require('module-alias/register');
 
 // **** Run **** //
 

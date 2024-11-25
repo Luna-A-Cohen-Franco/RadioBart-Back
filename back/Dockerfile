@@ -17,7 +17,6 @@ WORKDIR /app
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/dist ./dist
 
-
 COPY --from=build /app/env/production.env ./env/production.env
 
 RUN npm install --only=production
@@ -26,4 +25,4 @@ EXPOSE 8081
 
 ENV $(cat ./app/env/production.env | xargs)
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "-r", "module-alias/register", "./dist", "--env=production"]
