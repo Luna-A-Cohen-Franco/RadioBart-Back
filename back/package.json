@@ -1,0 +1,85 @@
+{
+  "name": "express-gen-ts",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "npx ts-node build.ts",
+    "lint": "npx eslint --ext .ts src/",
+    "lint:tests": "npx eslint --ext .ts spec/",
+    "start": "node -r module-alias/register ./dist --env=production",
+    "dev": "nodemon",
+    "test": "npx jest",
+    "test:no-reloading": "npx jest --watchAll"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.1.0",
+    "inserturlparams": "^2.0.4",
+    "jet-logger": "^1.3.1",
+    "jet-paths": "^1.0.9",
+    "jsonfile": "^6.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
+    "moment": "^2.30.1",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.6.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4",
+    "ts-command-line-args": "^2.5.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts, html",
+    "ignore": [
+      "src/public"
+    ],
+    "exec": "./node_modules/.bin/ts-node --files -r tsconfig-paths/register ./src"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^4.17.21",
+    "@types/find": "^0.2.4",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jasmine": "^5.1.4",
+    "@types/jest": "^29.5.14",
+    "@types/jsonfile": "^6.1.4",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.5.1",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^9.9.1",
+    "eslint-plugin-node": "^11.1.0",
+    "find": "^0.3.0",
+    "fs-extra": "^11.2.0",
+    "jasmine": "^5.2.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.4"
+  }
+}
